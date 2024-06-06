@@ -18,7 +18,15 @@ io.on("connection", (socket) => {
   console.log("User connected: ", socket.id);
   socket.emit("welcome", `Welcome to the server `);
   socket.broadcast.emit("welcome", `${socket.id} joined the server`);
+  socket.on("disconnect", () => {
+    console.log("Socket disconnected successfully..", socket.id);
+  });
+  socket.on("message", (e) => {
+    console.log(e);
+    socket.broadcast.emit("receive-message", e);
+  });
 });
+
 server.listen(port, () => {
   console.log(`Server started at port ${port}`);
 });
