@@ -21,9 +21,8 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("Socket disconnected successfully..", socket.id);
   });
-  socket.on("message", (e) => {
-    console.log(e);
-    socket.broadcast.emit("receive-message", e);
+  socket.on("message", ({room,message}) => {
+    io.to(room).emit("receive-message", message);
   });
 });
 
