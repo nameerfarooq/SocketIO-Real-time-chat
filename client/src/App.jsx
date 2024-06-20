@@ -33,6 +33,7 @@ const App = () => {
             id="outlined-basic"
             label="Outlined"
             variant="outlined"
+            value={message}
           />
           <Button onClick={handleSubmit} variant="contained" color="primary">
             Send
