@@ -14,6 +14,10 @@ const port = 3000;
 app.get("/", (req, res) => {
   res.send("Hello world");
 });
+const user = false;
+io.use((socket, next) => {
+  if (user) next();
+});
 io.on("connection", (socket) => {
   console.log("User connected: ", socket.id);
   socket.emit("welcome", `Welcome to the server `);
@@ -21,8 +25,12 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("Socket disconnected successfully..", socket.id);
   });
-  socket.on("message", ({room,message}) => {
+  socket.on("message", ({ room, message }) => {
     io.to(room).emit("receive-message", message);
+  });
+  socket.on("join_room", (room) => {
+    socket.join(room);
+    console.log("User joined :", room);
   });
 });
 
